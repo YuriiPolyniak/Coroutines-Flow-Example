@@ -26,7 +26,7 @@ class PokemonsInfoRepositoryImpl(
     }
 
     override suspend fun addPokemon(item: Pokemon) {
-        delay(1000)
+//        delay(1000)
         localDataSource.addPokemon(item)
     }
 

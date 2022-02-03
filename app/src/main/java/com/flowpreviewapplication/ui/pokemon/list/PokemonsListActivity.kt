@@ -1,6 +1,8 @@
 package com.flowpreviewapplication.ui.pokemon.list
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,12 +29,40 @@ class PokemonsListActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d("TestActivity", "onCreate A")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_list)
 
         setupItemsUI()
         setupListeners()
         setupObservers()
+
+//        pokemonsListViewModel.onCreate()
+    }
+
+    override fun onStart() {
+        Log.d("TestActivity", "onStart A")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d("TestActivity", "onResume A")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d("TestActivity", "onPause A")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d("TestActivity", "onStop A")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d("TestActivity", "onDestroy A")
+        super.onDestroy()
     }
 
     private fun setupItemsUI() {
@@ -44,7 +74,8 @@ class PokemonsListActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         pokemons_list_catch_pokemon_button.setOnClickListener {
-            pokemonsListViewModel.onCatchPokemonAction()
+            startActivity(Intent(this, SecondActivity::class.java))
+//            pokemonsListViewModel.onCatchPokemonAction()
         }
         pokemons_list_release_all_pokemons_button.setOnClickListener {
             pokemonsListViewModel.onReleaseAllPokemonsAction()

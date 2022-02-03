@@ -10,8 +10,8 @@ import com.flowpreviewapplication.data.datasource.pokemon.local.model.PokemonSpe
 import com.flowpreviewapplication.domain.model.PokemonSpecies
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 @Database(entities = [PokemonDb::class, PokemonSpeciesDb::class], version = 1)
