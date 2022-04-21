@@ -5,4 +5,17 @@
     <string name="release_all_pokemons">Release All</string>
     <string name="pokemon_level">Level: %d</string>
     <string name="pokemons_list_updated">Pokemons list is updated</string>
+    <string name="label_fragment_a">Fragment A</string>
+    <string name="label_fragment_b">Fragment B</string>
+    <string name="label_fragment_c">Fragment C</string>
+    <string name="label_fragment_d">Fragment D</string>
+    <string name="label_modal_dialog">Dialog</string>
+    <string name="label_bottom_dialog">Bottom Dialog</string>
+    <string name="label_activity_host">Host activity</string>
+    <string name="action_back">Go Back</string>
+    <string name="action_action">Do SMTH</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_repeat">And another one</string>
+    <string name="label_activity_second_host">Second host</string>
 </resources>

@@ -1,21 +1,23 @@
 package com.flowpreviewapplication.ui.pokemon.list
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.*
 import com.flowpreviewapplication.R
+import com.flowpreviewapplication.databinding.ActivityPokemonListBinding
 import com.flowpreviewapplication.domain.model.Pokemon
 import com.flowpreviewapplication.ui.pokemon.list.model.PokemonsListResult
-import kotlinx.android.synthetic.main.activity_pokemon_list.*
+import com.flowpreviewapplication.ui.pokemon.test.TestDialogFragment
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PokemonsListActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityPokemonListBinding
 
     private val pokemonsListViewModel: PokemonsListViewModel by viewModel()
 
@@ -28,16 +30,78 @@ class PokemonsListActivity : AppCompatActivity() {
 
     }
 
+    init {
+        lifecycleScope.launchWhenStarted{
+            pokemonsListViewModel.getSharedEvents0().collect { event ->
+                Log.d("TestLifecycleEvents", "sharedEvents0: Observe: ${event.javaClass.simpleName}")
+                delay(2000)
+                Log.d("TestLifecycleEvents", "sharedEvents0: Observe End: ${event.javaClass.simpleName}")
+            }
+        }
+        lifecycleScope.launchWhenStarted{
+            pokemonsListViewModel.getSharedEvents0().collect { event ->
+                delay(100)
+                Log.d("TestLifecycleEvents", "sharedEvents0-1: Observe: ${event.javaClass.simpleName}")
+//                Thread.sleep(1000)
+                Log.d("TestLifecycleEvents", "sharedEvents0-1: Observe End: ${event.javaClass.simpleName}")
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                pokemonsListViewModel.getSharedEvents0().collect { event ->
+                    Log.d("TestLifecycleEvents", "sharedEvents0: Observe Repeat: ${event.javaClass.simpleName}")
+                }
+            }
+        }
+//        lifecycleScope.launchWhenStarted{
+//            pokemonsListViewModel.getSharedEvents1().collect { event ->
+//                Log.d("TestLifecycleEvents", "sharedEvents1: Observe: ${event.javaClass.simpleName}")
+//            }
+//        }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                pokemonsListViewModel.getSharedEvents1().collect { event ->
+//                    Log.d("TestLifecycleEvents", "sharedEvents1: Observe Repeat: ${event.javaClass.simpleName}")
+//                }
+//            }
+//        }
+//        lifecycleScope.launchWhenStarted{
+//            pokemonsListViewModel.getStateEvents().collect { event ->
+//                Log.d("TestLifecycleEvents", "stateEvents: Observe: ${event.javaClass.simpleName}")
+//                Thread.sleep(1000)
+//                Log.d("TestLifecycleEvents", "stateEvents: Observe End: ${event.javaClass.simpleName}")
+//            }
+//        }
+//        lifecycleScope.launch {
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                pokemonsListViewModel.getStateEvents().collect { event ->
+//                    Log.d("TestLifecycleEvents", "stateEventsEmit: Observe Repeat: ${event.javaClass.simpleName}")
+//                }
+//            }
+//        }
+
+//        lifecycleScope.launchWhenStarted{
+//
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//
+//            }
+//            whenStarted {  }
+//
+//        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("TestActivity", "onCreate A")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pokemon_list)
+
+        binding = ActivityPokemonListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupItemsUI()
         setupListeners()
         setupObservers()
 
-//        pokemonsListViewModel.onCreate()
+        pokemonsListViewModel.onCreate()
     }
 
     override fun onStart() {
@@ -67,29 +131,42 @@ class PokemonsListActivity : AppCompatActivity() {
 
     private fun setupItemsUI() {
         adapter = PokemonsListAdapter(listener = listener)
-        pokemons_list_items_rv.also { rv ->
+        binding.pokemonsListItemsRv.also { rv ->
             rv.adapter = adapter
         }
     }
 
     private fun setupListeners() {
-        pokemons_list_catch_pokemon_button.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java))
+        binding.pokemonsListCatchPokemonButton.setOnClickListener {
+//            startActivity(Intent(this, TestActivity::class.java))
 //            pokemonsListViewModel.onCatchPokemonAction()
+            TestDialogFragment.newInstance().show(supportFragmentManager, null)
         }
-        pokemons_list_release_all_pokemons_button.setOnClickListener {
+        binding.pokemonsListReleaseAllPokemonsButton.setOnClickListener {
             pokemonsListViewModel.onReleaseAllPokemonsAction()
         }
     }
 
     private fun setupObservers() {
-        lifecycleScope.launchWhenStarted{
-
-
-        }
+//        lifecycleScope.launchWhenStarted{
+//
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//
+//            }
+//            whenStarted {  }
+//
+//        }
         pokemonsListViewModel.pokemonsListLiveData.observe(this,
             Observer { result ->
                 handlePokemonListResult(result)
+            })
+        pokemonsListViewModel.getEventsLiveData().observe(this,
+            Observer { event ->
+                Log.d("TestLifecycleEvents", "eventsLiveData: Observe: ${event.javaClass.simpleName}")
+            })
+        pokemonsListViewModel.getSingleEventsLiveData().observe(this,
+            Observer { event ->
+                Log.d("TestLifecycleEvents", "singleEventsLiveData: Observe: ${event.javaClass.simpleName}")
             })
     }
 
@@ -113,7 +190,7 @@ class PokemonsListActivity : AppCompatActivity() {
     }
 
     private fun showOrHideProgress(visible: Boolean) {
-        pokemons_list_progress_bar.visibility = if (visible) View.VISIBLE else View.GONE
+        binding.pokemonsListProgressBar.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
 }

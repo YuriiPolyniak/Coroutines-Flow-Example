@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/flowA">
+
+    <navigation
+        android:id="@+id/flowA"
+        app:startDestination="@id/featureAFragment">
+
+        <fragment
+            android:id="@+id/featureAFragment"
+            android:name="com.flowpreviewapplication.ui.nctest.featurea.FeatureAFragment"
+            android:label="@string/label_fragment_a"
+            tools:layout="@layout/fragment_feature_a">
+
+            <action
+                android:id="@+id/action_featureA_to_featureB"
+                app:destination="@id/flowB"
+                app:popUpTo="@id/featureAFragment"
+                app:popUpToSaveState="true"
+                app:restoreState="false" />
+
+            <action
+                android:id="@+id/action_featureA_to_featureC"
+                app:destination="@id/featureCFragment" />
+
+            <action
+                android:id="@+id/action_featureA_to_featureDD"
+                app:destination="@id/featureDDFragment"
+                app:popUpTo="@id/featureAFragment"
+                app:popUpToSaveState="true"
+                app:restoreState="false" />
+
+        </fragment>
+
+        <fragment
+            android:id="@+id/featureCFragment"
+            android:name="com.flowpreviewapplication.ui.nctest.featurec.FeatureCFragment"
+            android:label="@string/label_fragment_c"
+            tools:layout="@layout/fragment_feature_c">
+
+            <action
+                android:id="@+id/action_featureC_to_featureB"
+                app:destination="@id/flowB"
+                app:popUpTo="@id/featureAFragment"
+                app:popUpToSaveState="true"
+                app:restoreState="false">
+
+                <argument
+                    android:name="launchMode"
+                    android:defaultValue="SwitchTab"
+                    app:argType="string" />
+
+            </action>
+
+        </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/flowB"
+        app:startDestination="@id/featureBFragment">
+
+        <fragment
+            android:id="@+id/featureBFragment"
+            android:name="com.flowpreviewapplication.ui.nctest.featureb.FeatureBFragment"
+            android:label="@string/label_fragment_b"
+            tools:layout="@layout/fragment_feature_b">
+
+            <argument
+                android:name="launchMode"
+                android:defaultValue="Default"
+                app:argType="string" />
+
+            <action
+                android:id="@+id/action_featureB_to_featureD"
+                app:destination="@id/featureDFragment" />
+
+            <action
+                android:id="@+id/action_featureB_to_featureDD"
+                app:destination="@id/featureDDFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/featureDFragment"
+            android:name="com.flowpreviewapplication.ui.nctest.featured.FeatureDFragment"
+            android:label="@string/label_fragment_d"
+            tools:layout="@layout/fragment_feature_d" />
+    </navigation>
+
+    <fragment
+        android:id="@+id/featureDDFragment"
+        android:name="com.flowpreviewapplication.ui.nctest.featured.FeatureDFragment"
+        android:label="@string/label_fragment_d"
+        tools:layout="@layout/fragment_feature_d" />
+
+    <activity
+        android:id="@+id/secondHostActivity"
+        android:name="com.flowpreviewapplication.ui.nctest.activity.SecondHostActivity"
+        android:label="@string/label_activity_second_host"
+        tools:layout="@layout/activity_second_host" />
+</navigation>

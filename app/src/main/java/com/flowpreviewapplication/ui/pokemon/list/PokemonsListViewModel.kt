@@ -7,13 +7,12 @@ import com.flowpreviewapplication.domain.usecase.pokemon.CatchPokemonUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.GetPokemonsInfoUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.IncreasePokemonLevelUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.ReleaseAllPokemonsUseCase
+import com.flowpreviewapplication.ui.base.SingleLiveEvent
+import com.flowpreviewapplication.ui.pokemon.list.model.PokemonListEvent
 import com.flowpreviewapplication.ui.pokemon.list.model.PokemonsListResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 
 class PokemonsListViewModel(
@@ -32,6 +31,24 @@ class PokemonsListViewModel(
             .asLiveData())
     }
 
+    private val sharedEvents0 = MutableSharedFlow<PokemonListEvent>(replay = 0)
+    fun getSharedEvents0(): Flow<PokemonListEvent> = sharedEvents0
+
+//    private val sharedEvents0 = MutableSharedFlow<PokemonListEvent>(replay = 0, extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+//    fun getSharedEvents0(): Flow<PokemonListEvent> = sharedEvents0
+
+    private val sharedEvents1 = MutableSharedFlow<PokemonListEvent>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    fun getSharedEvents1(): Flow<PokemonListEvent> = sharedEvents1
+
+    private val stateEvents = MutableStateFlow<PokemonListEvent>(PokemonListEvent.Initial)
+    fun getStateEvents(): Flow<PokemonListEvent> = stateEvents
+
+    private val eventsLiveData = MutableLiveData<PokemonListEvent>()
+    fun getEventsLiveData(): LiveData<PokemonListEvent> = eventsLiveData
+
+    private val singleEventsLiveData = SingleLiveEvent<PokemonListEvent>()
+    fun getSingleEventsLiveData(): LiveData<PokemonListEvent> = singleEventsLiveData
+
 //    val pokemonsListLiveDataAlternative: LiveData<PokemonsListResult> =
 //        getPokemonsInfoUseCase.execute()
 //            .map<List<Pokemon>, PokemonsListResult> { PokemonsListResult.Success(it) }
@@ -41,6 +58,54 @@ class PokemonsListViewModel(
 //            .asLiveData()
 
     fun onCreate() {
+        Log.d("TestLifecycleEvents", "On create")
+
+//        flowOf(1,2,3).flatMapConcat {  }
+//        flowOf(1,2,3).flatMapMerge {  }
+//        flowOf(1,2,3).flatMapLatest {  }
+
+
+//        events.value = PokemonListEvent.Progress
+        viewModelScope.launch {
+            delay(5000)
+            Log.d("TestLifecycleEvents", "sharedEvents0: Try send: EventFirst")
+            sharedEvents0.emit(PokemonListEvent.EventFirst)
+            Log.d("TestLifecycleEvents", "sharedEvents0: Try send: EventSecond")
+            sharedEvents0.emit(PokemonListEvent.EventSecond)
+            Log.d("TestLifecycleEvents", "sharedEvents0: Try send: EventThird")
+            sharedEvents0.emit(PokemonListEvent.EventThird)
+            Log.d("TestLifecycleEvents", "sharedEvents0: Finish sending")
+        }
+//        viewModelScope.launch {
+//            delay(5000)
+//            Log.d("TestLifecycleEvents", "sharedEvents1: Try send: EventFirst")
+//            sharedEvents1.emit(PokemonListEvent.EventFirst)
+//            Log.d("TestLifecycleEvents", "sharedEvents1: Try send: EventSecond")
+//            sharedEvents1.emit(PokemonListEvent.EventSecond)
+//            Log.d("TestLifecycleEvents", "sharedEvents1: Finish sending")
+//        }
+//        viewModelScope.launch {
+//            delay(5000)
+//            Log.d("TestLifecycleEvents", "stateEvents: Try send: EventFirst")
+//            stateEvents.value =  PokemonListEvent.EventFirst
+//            Log.d("TestLifecycleEvents", "stateEvents: Try send: EventSecond")
+//            stateEvents.value = PokemonListEvent.EventSecond
+//            Log.d("TestLifecycleEvents", "stateEvents: Try send: EventThird")
+//            stateEvents.value = PokemonListEvent.EventThird
+//            Log.d("TestLifecycleEvents", "stateEvents: Finish sending")
+//        }
+//
+//        viewModelScope.launch {
+//            delay(5000)
+//            eventsLiveData.value = PokemonListEvent.EventFirst
+//            eventsLiveData.value = PokemonListEvent.EventSecond
+//        }
+//        viewModelScope.launch {
+//            delay(5000)
+//            singleEventsLiveData.value = PokemonListEvent.EventFirst
+//            singleEventsLiveData.value = PokemonListEvent.EventSecond
+//        }
+
 //        val flow = MutableSharedFlow<Number>()
 //        viewModelScope.launch {
 //            flow.emit(1)
@@ -87,20 +152,39 @@ class PokemonsListViewModel(
         }
 
         viewModelScope.launch {
+            val deferred = async(Dispatchers.IO) {
+                val result = "Resource<String>()"//
+                Log.d("TEST_FLOW", "Send: $result")
 
-            var time = System.currentTimeMillis()
-            flow.queueItems {
-                // send to the backend
-                Log.d("TEST_FLOW", "Ready to send $it")
-                Thread.sleep(1000)
-                Log.d("TEST_FLOW", "Finished sending $it")
-                it
-            }.onEach {
+                Thread.sleep(10000)
 //                delay(1000)
-                val timeDif = System.currentTimeMillis() - time
-                time = System.currentTimeMillis()
-                Log.d("TEST_FLOW", "El: $it - $timeDif")
-            }.collect()
+                result
+            }
+
+            launch {
+                val result = deferred.await()
+                Log.d("TEST_FLOW", "Result 1: $result")
+
+                delay(1000)
+//                launch {
+//                    val result = deferred.await()
+//                    Log.d("TEST_FLOW", "Result 2: $result")
+//                }
+            }
+
+//            var time = System.currentTimeMillis()
+//            flow.queueItems {
+//                // send to the backend
+//                Log.d("TEST_FLOW", "Ready to send $it")
+//                Thread.sleep(1000)
+//                Log.d("TEST_FLOW", "Finished sending $it")
+//                it
+//            }.onEach {
+////                delay(1000)
+//                val timeDif = System.currentTimeMillis() - time
+//                time = System.currentTimeMillis()
+//                Log.d("TEST_FLOW", "El: $it - $timeDif")
+//            }.collect()
         }
     }
 
@@ -295,7 +379,22 @@ class PokemonsListViewModel(
     }
 
     fun onReleaseAllPokemonsAction() = viewModelScope.launch {
-        releaseAllPokemonsUseCase.execute()
+        eventsLiveData.value = PokemonListEvent.EventButton()
+        singleEventsLiveData.value = PokemonListEvent.EventButton()
+
+        launch {
+            sharedEvents0.emit(PokemonListEvent.EventButton())
+        }
+        launch {
+            sharedEvents1.emit(PokemonListEvent.EventButton())
+        }
+        launch {
+            stateEvents.emit(PokemonListEvent.EventButton())
+        }
+
+//        events.tryEmit(PokemonListEvent.EventButton)
+//        events.value = PokemonListEvent.EventButton
+//        releaseAllPokemonsUseCase.execute()
     }
 
 }

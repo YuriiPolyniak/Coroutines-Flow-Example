@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/featureAFragment">
+
+<!--    <fragment-->
+<!--        android:id="@+id/featureAFragment"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.featurea.FeatureAFragment"-->
+<!--        android:label="@string/label_fragment_a"-->
+<!--        tools:layout="@layout/fragment_feature_a">-->
+<!--        <action-->
+<!--            android:id="@+id/featureAFragment"-->
+<!--            app:destination="@id/featureBFragment"-->
+<!--            app:restoreState="true">-->
+
+<!--        </action>-->
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/featureBFragment"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.featureb.FeatureBFragment"-->
+<!--        android:label="@string/label_fragment_b"-->
+<!--        tools:layout="@layout/fragment_feature_b">-->
+
+<!--        &lt;!&ndash; <argument-->
+<!--             android:name="userId"-->
+<!--             app:argType="string" />-->
+<!--         <argument-->
+<!--             android:name="myArg"-->
+<!--             android:defaultValue="@null"-->
+<!--             app:argType="com.flowpreviewapplication.ui.nctest.model.SomeInfo"-->
+<!--             app:nullable="true" />-->
+
+<!--         <argument-->
+<!--             android:name="myArg2"-->
+<!--             android:defaultValue="@string/label_fragment_a"-->
+<!--             app:argType="reference" />-->
+
+<!--         <argument-->
+<!--             android:name="myArg3"-->
+<!--             android:defaultValue="Some info"-->
+<!--             app:argType="string" />-->
+
+<!--         <argument-->
+<!--             android:name="myArg4"-->
+<!--             android:defaultValue="@null"-->
+<!--             app:argType="integer[]"-->
+<!--             app:nullable="true" />-->
+
+<!--         <argument-->
+<!--             android:name="customArg"-->
+<!--             app:nullable="true"-->
+<!--             android:defaultValue="@null"-->
+<!--             app:argType="com.flowpreviewapplication.ui.nctest.model.SomeInfo" />-->
+<!-- &ndash;&gt;-->
+<!--        <action-->
+<!--            android:id="@+id/action_featureBFragment_to_featureAFragment"-->
+<!--            app:destination="@id/featureCFragment"-->
+<!--            app:popUpTo="@id/featureAFragment"-->
+<!--            app:popUpToInclusive="true" />-->
+<!--        <action-->
+<!--            android:id="@+id/action_featureBFragment_to_featureCFragment"-->
+<!--            app:destination="@id/featureCFragment"/>-->
+
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/featureCFragment"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.featurec.FeatureCFragment"-->
+<!--        android:label="@string/label_fragment_c"-->
+<!--        tools:layout="@layout/fragment_feature_c">-->
+
+<!--        <action-->
+<!--            android:id="@+id/actionTest"-->
+<!--            app:destination="@id/featureBFragment"-->
+<!--            app:popUpTo="@id/featureBFragment"-->
+<!--            app:popUpToSaveState="true"-->
+<!--            app:restoreState="true"  />-->
+
+<!--    </fragment>-->
+
+<!--    <action-->
+<!--        android:id="@+id/restartGraph"-->
+<!--        app:destination="@id/featureAFragment"-->
+<!--        app:popUpTo="@id/featureAFragment"-->
+<!--        app:popUpToInclusive="true" />-->
+
+<!--    &lt;!&ndash;-->
+
+<!--    </fragment>-->
+
+<!--    <dialog-->
+<!--        android:id="@+id/modalFeatureDialog"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.modal.ModalFeatureDialogFragment"-->
+<!--        android:label="@string/label_modal_dialog"-->
+<!--        tools:layout="@layout/dialog_modal_feature" />-->
+
+<!--    <dialog-->
+<!--        android:id="@+id/bottomDialog"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.bottom.BottomDialogFragment"-->
+<!--        android:label="@string/label_bottom_dialog"-->
+<!--        tools:layout="@layout/dialog_bottom_feature" />-->
+
+<!--    <activity-->
+<!--        android:id="@+id/secondHostActivity"-->
+<!--        android:name="com.flowpreviewapplication.ui.nctest.activity.SecondHostActivity"-->
+<!--        android:label="@string/label_activity_second_host"-->
+<!--        tools:layout="@layout/activity_second_host" />-->
+
+<!--    <activity-->
+<!--        android:id="@+id/localDestinationActivity"-->
+<!--        app:action="android.intent.action.VIEW"-->
+<!--        app:data="https://example.com"-->
+<!--        app:targetPackage="${applicationId}" />-->
+
+<!--    <deepLink-->
+<!--        android:id="@+id/testDeepLink"-->
+<!--        app:action="android.intent.action.MY_ACTION"-->
+<!--        app:mimeType="type/subtype"-->
+<!--        app:uri="https://example.com" />-->
+
+
+
+<!--    <action-->
+<!--        android:id="@+id/toModalFeatureDialog"-->
+<!--        app:destination="@id/modalFeatureDialog" />-->
+
+<!--    <action-->
+<!--        android:id="@+id/toBottomDialog"-->
+<!--        app:destination="@id/bottomDialog" />&ndash;&gt;-->
+
+<!--    &lt;!&ndash;<navigation-->
+<!--        android:id="@+id/some_feature_graph"-->
+<!--        app:startDestination="@id/subFeatureBFragment">-->
+
+<!--        <navigation-->
+<!--            android:id="@+id/some_another_feature_graph"-->
+<!--            app:startDestination="@id/subFeatureBFragment">-->
+<!--            <fragment-->
+<!--                android:id="@+id/subFeatureBFragment"-->
+<!--                android:name="com.flowpreviewapplication.ui.nctest.featureb.FeatureBFragment"-->
+<!--                android:label="@string/label_fragment_b"-->
+<!--                tools:layout="@layout/fragment_feature_b">-->
+
+<!--                <action-->
+<!--                    android:id="@+id/action_subFeatureBFragment_to_subFeatureCFragment"-->
+<!--                    app:destination="@id/subFeatureCFragment" />-->
+
+<!--            </fragment>-->
+<!--        </navigation>-->
+<!--        <fragment-->
+<!--            android:id="@+id/subFeatureBFragment"-->
+<!--            android:name="com.flowpreviewapplication.ui.nctest.featureb.FeatureBFragment"-->
+<!--            android:label="@string/label_fragment_b"-->
+<!--            tools:layout="@layout/fragment_feature_b">-->
+
+<!--            <action-->
+<!--                android:id="@+id/action_subFeatureBFragment_to_subFeatureCFragment"-->
+<!--                app:destination="@id/subFeatureCFragment" />-->
+
+<!--        </fragment>-->
+
+<!--        <fragment-->
+<!--            android:id="@+id/subFeatureCFragment"-->
+<!--            android:name="com.flowpreviewapplication.ui.nctest.featurec.FeatureCFragment"-->
+<!--            android:label="@string/label_fragment_c"-->
+<!--            tools:layout="@layout/fragment_feature_c">-->
+
+<!--            <action-->
+<!--                android:id="@+id/exit_nested_flow"-->
+<!--                app:popUpTo="@id/some_feature_graph"-->
+<!--                app:popUpToInclusive="true" />-->
+
+<!--        </fragment>-->
+
+<!--    </navigation>&ndash;&gt;-->
+
+
+</navigation>

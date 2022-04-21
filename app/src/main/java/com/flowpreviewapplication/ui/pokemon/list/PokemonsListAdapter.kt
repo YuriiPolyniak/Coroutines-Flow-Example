@@ -1,13 +1,12 @@
 package com.flowpreviewapplication.ui.pokemon.list
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.flowpreviewapplication.R
+import com.flowpreviewapplication.databinding.ItemPokemonBinding
 import com.flowpreviewapplication.domain.model.Pokemon
-import kotlinx.android.synthetic.main.item_pokemon.view.*
 
 class PokemonsListAdapter(
     private var items: List<Pokemon> = emptyList(),
@@ -21,7 +20,7 @@ class PokemonsListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ITEM_VIEW_TYPE -> ItemViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_pokemon, parent, false)
+                ItemPokemonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             )
             else -> throw IllegalArgumentException("ViewHolder not supported")
         }
@@ -52,14 +51,15 @@ class PokemonsListAdapter(
         notifyDataSetChanged()
     }
 
-    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(private val binding: ItemPokemonBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Pokemon, listener: Listener?) = with(itemView) {
-            item_pokemon_name.text = item.name
-            item_pokemon_level.text = context.getString(R.string.pokemon_level, item.level)
-            item_pokemon_species.text = item.species?.speciesName ?: ""
-            item_pokemon_image.load(item.species?.imageUrl)
-            setOnClickListener {
+        fun bind(item: Pokemon, listener: Listener?) = with(binding) {
+            itemPokemonName.text = item.name
+            itemPokemonLevel.text = root.context.getString(R.string.pokemon_level, item.level)
+            itemPokemonSpecies.text = item.species?.speciesName ?: ""
+            itemPokemonImage.load(item.species?.imageUrl)
+            root.setOnClickListener {
                 listener?.onItemClicked(item)
             }
         }

@@ -1,16 +1,32 @@
-package com.flowpreviewapplication.ui.pokemon.list
+package com.flowpreviewapplication.ui.pokemon.test
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.flowpreviewapplication.R
+import com.flowpreviewapplication.databinding.ActivityPokemonSecondBinding
 
-class SecondActivity: AppCompatActivity()  {
+class TestActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityPokemonSecondBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d("TestActivity", "onCreate B")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pokemon_second)
+
+        binding = ActivityPokemonSecondBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
+        binding.testButton.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, TestFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onStart() {

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/second_nav_graph"
+    app:startDestination="@id/subFeatureCFragment">
+
+    <fragment
+        android:id="@+id/subFeatureCFragment"
+        android:name="com.flowpreviewapplication.ui.nctest.featurec.FeatureCFragment"
+        android:label="@string/label_fragment_c"
+        tools:layout="@layout/fragment_feature_c" >
+
+    </fragment>
+
+</navigation>

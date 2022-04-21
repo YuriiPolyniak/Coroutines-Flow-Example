@@ -4,9 +4,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -28,7 +27,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun addition_isCorrect() = runBlockingTest {
+    fun addition_isCorrect() = runTest {
         val flow = flow<String> {
             repeat(10) {
                 emit(it.toString())
@@ -37,10 +36,23 @@ class ExampleUnitTest {
         }
 
         assertEquals(10, flow.toList().size)
+
+//        mutableMapOf("" to 3).toSortedMap { first, second -> second.compareTo(first) }
+//
+//        Collections.disjoint()
+//        arrayOf(3).maxByOrNull {  }
     }
 
     @After
     fun cleanUp() {
         Dispatchers.resetMain()
+    }
+
+    @Test
+    fun testMy() {
+        val university = University(TestRepo())
+        val result = university.getPaidCoursesWithTheNumbersOfSubscribedStudents(3)
+
+        println(result)
     }
 }

@@ -1,5 +1,6 @@
 package com.flowpreviewapplication.di
 
+import androidx.navigation.NavController
 import com.flowpreviewapplication.data.datasource.AppDatabase
 import com.flowpreviewapplication.data.datasource.pokemon.local.PokemonsLocalDataSource
 import com.flowpreviewapplication.data.datasource.pokemon.remote.PokemonsRemoteDataSource
@@ -9,7 +10,10 @@ import com.flowpreviewapplication.domain.usecase.pokemon.CatchPokemonUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.GetPokemonsInfoUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.IncreasePokemonLevelUseCase
 import com.flowpreviewapplication.domain.usecase.pokemon.ReleaseAllPokemonsUseCase
+import com.flowpreviewapplication.domain.usecase.test.TestUseCase
+import com.flowpreviewapplication.ui.nctest.featurea.FeatureAViewModel
 import com.flowpreviewapplication.ui.pokemon.list.PokemonsListViewModel
+import com.flowpreviewapplication.ui.pokemon.test.TestViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -41,6 +45,8 @@ object PokemonModule {
                 localDataSource = get()
             )
         }
+//        } binds arrayOf(PokemonsInfoRepository::class)
+//        } bind PokemonsInfoRepository::class
 
         single { GetPokemonsInfoUseCase(pokemonsInfoRepository = get()) }
 
@@ -49,6 +55,8 @@ object PokemonModule {
         single { IncreasePokemonLevelUseCase(pokemonsInfoRepository = get()) }
 
         single { ReleaseAllPokemonsUseCase(pokemonsInfoRepository = get()) }
+
+        single { TestUseCase() }
 
         // presentation
         viewModel {
@@ -59,6 +67,8 @@ object PokemonModule {
                 releaseAllPokemonsUseCase = get()
             )
         }
+        viewModel { TestViewModel() }
+        viewModel { FeatureAViewModel(get(), get()) }
 
     }
 

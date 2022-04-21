@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -57,7 +58,7 @@ class PokemonListViewModelTest {
     }
 
     @Test
-    fun `when loaded than the list of pokemons should be loaded`() = runBlockingTest {
+    fun `when loaded than the list of pokemons should be loaded`() = runTest {
         // Given
         val pokemonsList = getMockedPokemons()
         whenever(getPokemonsInfoUseCase.execute()).thenReturn(flowOf(pokemonsList))
@@ -104,7 +105,7 @@ class PokemonListViewModelTest {
             pokemonsChannel.send(pokemonsList)
             whenever(getPokemonsInfoUseCase.execute()).thenReturn(pokemonsChannel.receiveAsFlow())
             whenever(catchPokemonUseCase.execute()).thenAnswer {
-                pokemonsChannel.offer(
+                pokemonsChannel.trySend(
                     newPokemonsList
                 )
             }
